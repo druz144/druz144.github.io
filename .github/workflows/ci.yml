@@ -1,9 +1,7 @@
 name: CI/CD
 
 on:
-  push:
-    # branches:
-    #   - main
+  push
 
 jobs:
   check:
@@ -44,6 +42,7 @@ jobs:
 
   deploy:
     name: "🚀 Deploy"
+    if: github.ref == 'refs/heads/main'
     needs:
       - check
       - build
