@@ -1,4 +1,4 @@
-# druz144 docs
+# [druz144.github.io](https://druz144.github.io)
 
 ## Local setup
 
@@ -35,3 +35,11 @@ Build app:
 ```sh
 pnpm build
 ```
+
+## Tech stack
+
+- [pnpm](https://pnpm.io/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [React](https://react.dev/)
+- [Mantine](https://mantine.dev/)
