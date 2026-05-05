@@ -10,7 +10,10 @@ import { IconMoon, IconSun } from "@tabler/icons-react";
 import { Link, NavLink } from "react-router-dom";
 import classes from "./AppHeader.module.css";
 
-const navLinks = [{ label: "Home", href: "/" }];
+const navLinks = [
+  { label: "Home", href: "/" },
+  { label: "Cart", href: "/cart" },
+];
 
 export function AppHeader() {
   const { setColorScheme } = useMantineColorScheme();
