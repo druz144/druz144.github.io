@@ -20,9 +20,8 @@ export function AppHeader() {
   const computedColorScheme = useComputedColorScheme("light", {
     getInitialValueInEffect: true,
   });
-
   const toggleColorScheme = () => {
-    setColorScheme(computedColorScheme === "light" ? "dark" : "light");
+    setColorScheme(computedColorScheme === "dark" ? "light" : "dark");
   };
 
   return (

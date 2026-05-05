@@ -27,10 +27,11 @@ export function CartPage() {
       message: "",
     },
     validate: {
-      name: (value) =>
-        value.trim().length === 0 ? "Name is required" : null,
+      name: (value) => (value.trim().length === 0 ? "Name is required" : null),
       email: (value) =>
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? null : "Invalid e-mail address",
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+          ? null
+          : "Invalid e-mail address",
     },
   });
 
@@ -39,7 +40,10 @@ export function CartPage() {
     try {
       const response = await fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         body: JSON.stringify(values),
       });
       if (response.ok) {
