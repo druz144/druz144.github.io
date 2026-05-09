@@ -41,14 +41,8 @@ const priceFormatter = new Intl.NumberFormat("de-DE", {
 
 export function CartPage() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
-  const {
-    items,
-    totalCount,
-    incrementItem,
-    decrementItem,
-    removeItem,
-    clear,
-  } = useCart();
+  const { items, totalCount, incrementItem, decrementItem, removeItem, clear } =
+    useCart();
 
   const form = useForm({
     initialValues: {
@@ -184,7 +178,12 @@ export function CartPage() {
       <Stack gap="xl">
         <section>
           <Title order={4} mb="sm">
-            Items {totalCount > 0 && <Text span c="dimmed">({totalCount})</Text>}
+            Items{" "}
+            {totalCount > 0 && (
+              <Text span c="dimmed">
+                ({totalCount})
+              </Text>
+            )}
           </Title>
 
           {isEmpty ? (

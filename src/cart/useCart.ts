@@ -82,10 +82,7 @@ export function useCart() {
     [setItems],
   );
 
-  const incrementItem = useCallback(
-    (id: string) => addItem(id, 1),
-    [addItem],
-  );
+  const incrementItem = useCallback((id: string) => addItem(id, 1), [addItem]);
 
   const decrementItem = useCallback(
     (id: string) => {
