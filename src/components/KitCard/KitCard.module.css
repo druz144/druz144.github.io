@@ -76,3 +76,11 @@
 .highlight {
   animation: highlightPulse 1500ms ease-out;
 }
+
+.stepper {
+  align-items: center;
+}
+
+.stepperCount {
+  min-width: 1.75rem;
+}

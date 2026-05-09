@@ -2,6 +2,7 @@ import {
   ActionIcon,
   Anchor,
   Badge,
+  Button,
   Card,
   CopyButton,
   Group,
@@ -10,8 +11,16 @@ import {
   Title,
   Tooltip,
 } from "@mantine/core";
-import { IconCheck, IconExternalLink, IconLink } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconExternalLink,
+  IconLink,
+  IconMinus,
+  IconPlus,
+  IconShoppingCartPlus,
+} from "@tabler/icons-react";
 import { useState } from "react";
+import { useCart } from "../../cart/useCart";
 import { getKitImageUrl, type Kit } from "../../data/kits";
 import classes from "./KitCard.module.css";
 
@@ -37,6 +46,8 @@ export function KitCard({ kit }: KitCardProps) {
   const imageUrl = kit.image ? getKitImageUrl(kit.image) : undefined;
   const [imageFailed, setImageFailed] = useState(false);
   const anchorHref = `#${kit.id}`;
+  const { getAmount, addItem, incrementItem, decrementItem } = useCart();
+  const amount = getAmount(kit.id);
 
   return (
     <Card
@@ -140,7 +151,44 @@ export function KitCard({ kit }: KitCardProps) {
             </Group>
           )}
 
-          <Group justify="flex-end" mt="sm">
+          <Group justify="space-between" mt="sm" wrap="nowrap">
+            {amount === 0 ? (
+              <Button
+                variant="light"
+                size="xs"
+                leftSection={<IconShoppingCartPlus size={16} stroke={1.5} />}
+                onClick={() => addItem(kit.id, 1)}
+              >
+                Add to cart
+              </Button>
+            ) : (
+              <Group gap={6} wrap="nowrap" className={classes.stepper}>
+                <ActionIcon
+                  variant="default"
+                  onClick={() => decrementItem(kit.id)}
+                  aria-label="Decrease amount"
+                >
+                  <IconMinus size={16} stroke={1.5} />
+                </ActionIcon>
+                <Text
+                  fw={600}
+                  size="sm"
+                  ta="center"
+                  className={classes.stepperCount}
+                  aria-live="polite"
+                >
+                  {amount}
+                </Text>
+                <ActionIcon
+                  variant="default"
+                  onClick={() => incrementItem(kit.id)}
+                  aria-label="Increase amount"
+                >
+                  <IconPlus size={16} stroke={1.5} />
+                </ActionIcon>
+              </Group>
+            )}
+
             <CopyButton
               value={`${window.location.origin}${window.location.pathname}#${kit.id}`}
               timeout={1500}

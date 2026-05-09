@@ -78,3 +78,7 @@ export const kits: Kit[] = [
     image: "nb1.jpg",
   },
 ];
+
+export const kitsById: Record<string, Kit> = Object.fromEntries(
+  kits.map((kit) => [kit.id, kit]),
+);
