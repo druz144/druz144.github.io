@@ -30,11 +30,27 @@ pnpm lint
 pnpm typecheck
 ```
 
-Run browser regression tests (checkout requests are mocked):
+Run the Vitest suite (unit tests plus browser tests at desktop and mobile sizes):
 
 ```sh
 pnpm exec playwright install chromium
 pnpm test
+```
+
+Vitest uses Chromium through its Playwright provider for real browser layout and
+keyboard checks. All order submissions are mocked. Browser tests mount the
+shared app routes directly; a separate development server is not required.
+
+Watch tests during development:
+
+```sh
+pnpm test:watch
+```
+
+Run only the unit tests (no browser installation needed):
+
+```sh
+pnpm test --project unit
 ```
 
 Build app:
@@ -50,3 +66,4 @@ pnpm build
 - [Vite](https://vitejs.dev/)
 - [React](https://react.dev/)
 - [Mantine](https://mantine.dev/)
+- [Vitest](https://vitest.dev/)

@@ -9,6 +9,7 @@ export type Kit = {
   category?: CatalogCategory;
   id: string;
   name: string;
+  description?: string;
   type?: string;
   planeManufacturer: string;
   planeModel: string;
@@ -68,7 +69,7 @@ export const kits: Kit[] = [
   },
   {
     id: "cfm56-7be_revell",
-    name: 'CFM56-7BE "evolution" engines for Boeing 737 NG',
+    name: 'CFM56-7BE "Evolution" engines for Boeing 737 NG',
     type: "engine",
     planeManufacturer: "Boeing",
     planeModel: "737 NG (-600/-700/-800/-900)",
@@ -89,7 +90,7 @@ export const kits: Kit[] = [
   },
   {
     id: "cfm56-7be_zvezda",
-    name: 'CFM56-7BE "evolution" engines for Boeing 737 NG',
+    name: 'CFM56-7BE "Evolution" engines for Boeing 737 NG',
     type: "engine",
     planeManufacturer: "Boeing",
     planeModel: "737 NG (-600/-700/-800/-900)",
@@ -295,7 +296,7 @@ export const kits: Kit[] = [
   },
   {
     id: "nose_b747",
-    name: "Nose section for Boeing 747-400 w/o interior",
+    name: "Nose section for Boeing 747-400 without interior",
     type: "nose",
     planeManufacturer: "Boeing",
     planeModel: "747-400",
@@ -422,7 +423,7 @@ export const kits: Kit[] = [
   },
   {
     id: "winglets_b767",
-    name: "Winglets set for Boeing 767",
+    name: "Winglet set for Boeing 767",
     type: "winglet",
     planeManufacturer: "Boeing",
     planeModel: "767",
@@ -453,8 +454,9 @@ export const kits: Kit[] = [
     images: [],
   },
   {
+    // Keep the existing ID so saved carts and product links remain valid.
     id: "fans_spinners_decals_b777",
-    name: "Fans, spinners and decals for Boeing 777-300ER",
+    name: "Fans and spinners for GE90-115 engines on Boeing 777-300ER",
     type: "fans",
     planeManufacturer: "Boeing",
     planeModel: "777-300ER",
@@ -467,6 +469,17 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/fans-spinners-and-decals-for-revell-zvezda-boeing-777-300er-kits/",
       },
     ],
+    images: [],
+  },
+  {
+    id: "decals_ge90-115_b777",
+    name: "Decals for GE90-115 engines on Boeing 777-300ER",
+    type: "decal",
+    planeManufacturer: "Boeing",
+    planeModel: "777-300ER",
+    kitManufacturer: "Revell / Zvezda",
+    scale: "1/144",
+    priceEur: 9,
     images: [],
   },
   {
@@ -738,7 +751,7 @@ export const kits: Kit[] = [
   },
   {
     id: "winglets_a330_a340",
-    name: "Winglets set for Airbus A330/340",
+    name: "Winglet set for Airbus A330/340",
     type: "winglet",
     planeManufacturer: "Airbus",
     planeModel: "A330/340",
@@ -908,7 +921,7 @@ export const kits: Kit[] = [
   },
   {
     id: "flap_trap_a380",
-    name: "Flap trap fairings for Airbus A380",
+    name: "Flap track fairings for Airbus A380",
     type: "fairing",
     planeManufacturer: "Airbus",
     planeModel: "A380",
@@ -925,7 +938,7 @@ export const kits: Kit[] = [
   },
   {
     id: "cf6-50_dc10-30",
-    name: "General Electric CF6-50 early versions engines for DC-10-30 (CF6-50A/C/C1)",
+    name: "General Electric CF6-50 early-version engines for DC-10-30 (CF6-50A/C/C1)",
     type: "engine",
     planeManufacturer: "McDonnell Douglas",
     planeModel: "DC-10-30",
@@ -1053,7 +1066,8 @@ export const kits: Kit[] = [
   },
   {
     id: "fans_spinners_cf6-80c2",
-    name: "Fans & spinners for General Electric CF6-80C2 engines (A300B4 / Beluga / A310)",
+    name: "Fans and spinners for General Electric CF6-80C2 engines (A300B4 / Beluga / A310)",
+    description: "Fan diameter: 16.4 mm.",
     type: "fans",
     planeManufacturer: "Airbus",
     planeModel: "A300B4 / A300B4-608ST Beluga / A310",

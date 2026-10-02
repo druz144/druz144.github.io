@@ -1,0 +1,94 @@
+.navigation {
+  min-width: 0;
+}
+.navigation > p {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+.category {
+  border-top: 1px solid var(--site-line);
+  padding: 16px 0;
+}
+.heading {
+  color: var(--site-muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+}
+.heading[aria-current],
+.heading:hover {
+  color: var(--site-ink);
+}
+.heading[aria-current]::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--site-accent);
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.scales {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.scales a {
+  font-size: 12px;
+  color: var(--site-muted);
+  padding: 6px 12px;
+  border: 1px solid var(--site-line);
+  text-decoration: none;
+  border-radius: 4px;
+}
+.scales a:hover,
+.scales a[aria-current] {
+  background: var(--site-soft);
+  color: var(--site-ink);
+  border-color: var(--site-muted);
+}
+.aircraft {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 12px;
+}
+.aircraft a {
+  color: var(--site-muted);
+  font-size: 12px;
+  text-underline-offset: 4px;
+}
+.aircraft a[aria-current] {
+  color: var(--site-ink);
+  font-weight: 700;
+}
+.help {
+  font-size: 12px;
+  padding: 20px 16px;
+  background: var(--site-soft);
+  margin-top: 20px;
+  line-height: 1.7;
+}
+.help p {
+  color: var(--site-muted);
+}
+.help a {
+  color: var(--site-ink);
+  text-underline-offset: 3px;
+}
+@media (max-width: 48em) {
+  .navigation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+  }
+  .navigation > p {
+    grid-column: 1 / -1;
+    margin-bottom: 8px;
+  }
+  .help {
+    display: none;
+  }
+}

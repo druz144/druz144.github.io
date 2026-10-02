@@ -4,6 +4,8 @@ import {
   Container,
   Group,
   NativeSelect,
+  Pagination,
+  SimpleGrid,
   Stack,
   Text,
   TextInput,
@@ -14,6 +16,7 @@ import { CatalogNavigation } from "../components/CatalogNavigation";
 import { KitCard } from "../components/KitCard/KitCard";
 import { aircraftGroups, categories } from "../data/catalog";
 import { kits } from "../data/kits";
+import classes from "./Products.module.css";
 
 export function ProductsPage() {
   const [params, setParams] = useSearchParams();
@@ -46,6 +49,7 @@ export function ProductsPage() {
       return false;
     const text = [
       kit.name,
+      kit.description,
       kit.id,
       kit.planeManufacturer,
       kit.planeModel,
@@ -63,19 +67,41 @@ export function ProductsPage() {
     if (value) next.set(key, value);
     else next.delete(key);
     if (key === "scale") next.delete("manufacturer");
+    next.delete("page");
     setParams(next, { replace: key === "q" });
   }
 
+  const pageSize = 12;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const requestedPage = Number(params.get("page")) || 1;
+  const page = Math.max(1, Math.min(totalPages, Math.floor(requestedPage)));
+
   return (
-    <Container size="lg" py="xl">
-      <Stack gap="xl">
+    <Container size="lg" className="page">
+      <div className={classes.intro}>
+        <Text className="eyebrow" mb="sm">
+          Made for the details
+        </Text>
+        <Title order={1} className="page-title">
+          {category.label}
+        </Title>
+        <Text c="dimmed" mt="md">
+          {category.value === "parts"
+            ? "Find the right parts for your build. Choose a scale, then check compatibility with your base kit."
+            : category.value === "models"
+              ? "Digital models for your workbench. Available downloads will be listed here."
+              : category.value === "aircraft"
+                ? "Explore complete aircraft model kits as they join the catalog."
+                : "A look at what’s next from the workshop."}
+        </Text>
+      </div>
+      <div className={classes.layout}>
         <CatalogNavigation />
-        <Stack gap="md">
-          <Title order={1}>{category.label}</Title>
-          <Group align="flex-end">
+        <Stack gap="lg" miw={0}>
+          <Group align="flex-end" className={classes.filters}>
             <TextInput
               label="Search this section"
-              placeholder="Engine, aircraft, manufacturer…"
+              placeholder="Try CFM56, A320 or Revell…"
               value={query}
               onChange={(event) => updateFilter("q", event.currentTarget.value)}
               style={{ flex: "1 1 240px" }}
@@ -122,11 +148,40 @@ export function ProductsPage() {
                 : category.empty}
             </Alert>
           )}
-          {filtered.map((kit) => (
-            <KitCard key={kit.id} kit={kit} />
-          ))}
+          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg">
+            {filtered
+              .slice((page - 1) * pageSize, page * pageSize)
+              .map((kit) => (
+                <KitCard key={kit.id} kit={kit} />
+              ))}
+          </SimpleGrid>
+          {totalPages > 1 && (
+            <div className={classes.pagination}>
+              <Text size="sm" c="dimmed">
+                Showing {(page - 1) * pageSize + 1}–
+                {Math.min(page * pageSize, filtered.length)} of{" "}
+                {filtered.length}
+              </Text>
+              <Pagination
+                total={totalPages}
+                value={page}
+                siblings={0}
+                boundaries={1}
+                size="sm"
+                getItemProps={(pageNumber) => ({
+                  "aria-label": `Page ${pageNumber}`,
+                })}
+                onChange={(value) => {
+                  const next = new URLSearchParams(params);
+                  next.set("page", String(value));
+                  setParams(next);
+                  window.scrollTo({ top: 0, behavior: "instant" });
+                }}
+              />
+            </div>
+          )}
         </Stack>
-      </Stack>
+      </div>
     </Container>
   );
 }

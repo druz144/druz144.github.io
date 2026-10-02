@@ -26,16 +26,16 @@ jobs:
         run: pnpm lint
 
   test:
-    name: Browser tests
+    name: Vitest tests
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Set up Node.js and pnpm
         uses: ./.github/actions/setup-node-and-pnpm
-      - name: Install Chromium
+      - name: Install Chromium for Vitest browser tests
         run: pnpm exec playwright install --with-deps chromium
-      - name: Test app
+      - name: Run Vitest
         run: pnpm test
 
   build:

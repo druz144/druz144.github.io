@@ -1,5 +1,5 @@
 import { Anchor, Stack, Text } from "@mantine/core";
-import { shop } from "../data/shop";
+import { shop, usefulLinks } from "../data/shop";
 import { priceFormatter } from "../utils/format";
 
 export function ShopInformation({ section }: { section: string }) {
@@ -35,11 +35,11 @@ export function ShopInformation({ section }: { section: string }) {
         <Stack gap="xs">
           <Text>I accept PayPal.</Text>
           <Text>
-            Trackable international airmail shipping:{" "}
+            Tracked international airmail:{" "}
             {priceFormatter.format(shop.shippingFirstEur)} for the first kit.
           </Text>
           <Text>
-            Each additional kit: +
+            Each additional kit:
             {priceFormatter.format(shop.shippingAdditionalEur)}.
           </Text>
         </Stack>
@@ -51,22 +51,29 @@ export function ShopInformation({ section }: { section: string }) {
             5% off
           </Text>
           <Text>
-            Available on orders of {shop.discountMinimum} or more kits.
+            Order {shop.discountMinimum} or more kits and save 5% on the kit
+            subtotal.
           </Text>
           <Text size="sm" c="dimmed">
-            Applied to kit prices before shipping.
+            The discount is included automatically in your cart estimate.
+            Shipping is calculated separately.
           </Text>
         </Stack>
       );
     case "/useful-links":
       return (
-        <Anchor
-          href="https://airlinercafe.com/forums/topic/how-to-fit-a-pylon-to-a-wing-the-final-revision/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          How to fit a pylon to a wing — the final revision (Airliner Cafe)
-        </Anchor>
+        <Stack gap="sm">
+          {usefulLinks.map((link) => (
+            <Anchor
+              key={link.href}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {link.label}
+            </Anchor>
+          ))}
+        </Stack>
       );
     default:
       return null;

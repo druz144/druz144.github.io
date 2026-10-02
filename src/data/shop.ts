@@ -16,6 +16,17 @@ export const informationLinks = [
   { label: "Useful links", href: "/useful-links" },
 ];
 
+export const goodToKnowLinks = informationLinks.filter(
+  (link) => link.href !== "/contact",
+);
+
+export const usefulLinks = [
+  {
+    label: "How to fit a pylon to a wing — the final revision (Airliner Cafe)",
+    href: "https://airlinercafe.com/forums/topic/how-to-fit-a-pylon-to-a-wing-the-final-revision/",
+  },
+];
+
 export function orderEstimate(subtotalEur: number, count: number) {
   const subtotalCents = Math.round(subtotalEur * 100);
   const discountCents =
@@ -29,6 +40,7 @@ export function orderEstimate(subtotalEur: number, count: number) {
   return {
     discountEur: discountCents / 100,
     shippingEur,
-    totalEur: (subtotalCents - discountCents) / 100 + shippingEur,
+    totalEur:
+      (subtotalCents - discountCents + Math.round(shippingEur * 100)) / 100,
   };
 }

@@ -77,3 +77,38 @@
     justify-self: end;
   }
 }
+
+.checkout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+.details {
+  padding: 28px;
+  background: var(--site-surface);
+  border: 1px solid var(--site-line);
+  border-radius: 4px;
+}
+@media (max-width: 62em) {
+  .checkout {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 36em) {
+  .lineBody {
+    gap: 10px;
+    grid-template-areas: "thumb info info" "qty qty total" "remove remove remove";
+  }
+  .lineBody > :last-child {
+    grid-area: remove;
+    justify-self: end;
+  }
+  .thumbLink {
+    width: 52px;
+    height: 52px;
+  }
+  .details {
+    padding: 20px;
+  }
+}

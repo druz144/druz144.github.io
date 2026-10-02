@@ -2,101 +2,44 @@ import {
   ActionIcon,
   Container,
   Group,
-  Text,
   TextInput,
   Button,
   useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
-import { IconMoon, IconShoppingCart, IconSun } from "@tabler/icons-react";
-import { Link, NavLink, useMatch, useNavigate } from "react-router-dom";
-import { informationLinks } from "../../data/shop";
+import {
+  IconMoon,
+  IconShoppingBag,
+  IconSun,
+  IconSearch,
+} from "@tabler/icons-react";
+import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { useCart } from "../../cart/useCart";
 import classes from "./AppHeader.module.css";
 
-const navLinks = [
-  { label: "Home", href: "/", end: true },
-  { label: "Products", href: "/products", end: false },
-];
-
 export function AppHeader() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light");
   const { totalCount } = useCart();
-  const isCartActive = useMatch("/cart");
-  const toggleColorScheme = () => {
-    setColorScheme(computedColorScheme === "dark" ? "light" : "dark");
-  };
-
   return (
-    <Container size="lg" py="sm">
+    <Container size="lg">
       <div className={classes.inner}>
-        <Group gap="sm">
-          <Text
-            component={Link}
-            to="/"
-            fw={700}
-            fz="1.75rem"
-            className={classes.logo}
-          >
-            druz144
-          </Text>
-          <Group gap={4}>
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.href}
-                to={link.href}
-                end={link.end}
-                className={({ isActive }) =>
-                  `${classes.link} ${isActive ? classes.linkActive : ""}`
-                }
-              >
-                {link.label}
-              </NavLink>
-            ))}
-          </Group>
-        </Group>
-
-        <Group gap={8}>
-          <div className={classes.cartWrap}>
-            <ActionIcon
-              component={Link}
-              to="/cart"
-              variant="default"
-              size="xl"
-              radius="md"
-              aria-label="Cart"
-              className={isCartActive ? classes.actionIconActive : ""}
-            >
-              <IconShoppingCart size={22} stroke={1.5} />
-            </ActionIcon>
-            {totalCount > 0 && (
-              <span className={classes.cartBadge}>{totalCount}</span>
-            )}
-          </div>
-
-          <ActionIcon
-            variant="default"
-            size="xl"
-            radius="md"
-            onClick={toggleColorScheme}
-            aria-label="Toggle color scheme"
-          >
-            {computedColorScheme === "dark" ? (
-              <IconSun size={22} stroke={1.5} />
-            ) : (
-              <IconMoon size={22} stroke={1.5} />
-            )}
-          </ActionIcon>
-        </Group>
-      </div>
-      <div className={classes.utilities}>
-        <nav aria-label="Shop information" className={classes.utilityLinks}>
-          {informationLinks.map((link) => (
+        <Link to="/" className={classes.logo} aria-label="druz144 home">
+          druz144
+        </Link>
+        <nav aria-label="Main navigation" className={classes.navigation}>
+          {[
+            { label: "Home", href: "/", end: true },
+            { label: "Products", href: "/products", end: false },
+            { label: "Good to know", href: "/payment-shipping", end: true },
+            { label: "Contact", href: "/contact", end: true },
+          ].map((link) => (
             <NavLink
               key={link.href}
               to={link.href}
+              end={link.end}
               className={({ isActive }) =>
                 `${classes.link} ${isActive ? classes.linkActive : ""}`
               }
@@ -105,6 +48,34 @@ export function AppHeader() {
             </NavLink>
           ))}
         </nav>
+        <Group gap={8} className={classes.actions} wrap="nowrap">
+          <ActionIcon
+            variant="subtle"
+            color="gray"
+            onClick={() =>
+              setColorScheme(computedColorScheme === "dark" ? "light" : "dark")
+            }
+            aria-label="Toggle color scheme"
+          >
+            {computedColorScheme === "dark" ? (
+              <IconSun size={19} stroke={1.5} />
+            ) : (
+              <IconMoon size={19} stroke={1.5} />
+            )}
+          </ActionIcon>
+          <Link to="/cart" aria-label="Cart" className={classes.cart}>
+            <IconShoppingBag size={20} stroke={1.5} />
+            <span className={classes.cartLabel}>Cart</span>
+            <span className={classes.cartBadge} aria-live="polite">
+              {totalCount}
+            </span>
+          </Link>
+        </Group>
+      </div>
+      <div className={classes.utilities}>
+        <span className={classes.note}>
+          Handmade airliner model details for a more personal build.
+        </span>
         <form
           role="search"
           className={classes.search}
@@ -117,13 +88,17 @@ export function AppHeader() {
           }}
         >
           <TextInput
+            key={params.get("q") ?? ""}
+            defaultValue={params.get("q") ?? ""}
             name="q"
             type="search"
             aria-label="Search products"
-            placeholder="Search products"
+            placeholder="Find an engine, aircraft or kit…"
+            size="sm"
+            leftSection={<IconSearch size={16} />}
             style={{ flex: 1, minWidth: 0 }}
           />
-          <Button type="submit" variant="light">
+          <Button type="submit" variant="subtle" size="sm">
             Search
           </Button>
         </form>

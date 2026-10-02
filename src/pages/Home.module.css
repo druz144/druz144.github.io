@@ -1,4 +1,181 @@
+.hero {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  padding: 58px 0;
+}
+.heroCopy {
+  padding: 16px 0;
+}
 .heroTitle {
-  font-size: clamp(2rem, 5vw, 3rem);
-  line-height: 1.15;
+  font-size: clamp(3.5rem, 6vw, 5.4rem);
+  font-weight: 600;
+  letter-spacing: -0.065em;
+  line-height: 1.02;
+}
+.heroTitle span {
+  color: var(--site-accent);
+}
+.intro {
+  margin-top: 26px;
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--site-muted);
+  max-width: 430px;
+}
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 26px 0;
+  gap: 28px;
+  border-top: 1px solid var(--site-line);
+  border-bottom: 1px solid var(--site-line);
+}
+.facts > div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.facts svg {
+  flex-shrink: 0;
+  color: var(--site-muted);
+}
+.facts strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 650;
+}
+.facts span {
+  display: block;
+  font-size: 11px;
+  color: var(--site-muted);
+  margin-top: 4px;
+}
+.section {
+  margin-top: 64px;
+}
+.sectionHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.sectionHeading h2,
+.orderGuide h2 {
+  font-size: 30px;
+  font-weight: 600;
+}
+.aircraftGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.aircraftLink {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  color: var(--site-ink);
+  background: var(--site-soft);
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: border-color 150ms;
+}
+.aircraftLink:hover {
+  border-color: var(--site-accent);
+}
+.index {
+  font-family: monospace;
+  letter-spacing: 1px;
+  font-size: 11px;
+  color: var(--site-muted);
+  margin-bottom: 22px;
+}
+.aircraftLink strong {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.6px;
+}
+.aircraftLink > span:last-of-type {
+  color: var(--site-muted);
+  font-size: 12px;
+  margin-top: 6px;
+}
+.aircraftArrow {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+}
+.orderGuide {
+  margin: 64px 0;
+  padding: 36px;
+  border: 1px solid var(--site-line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+.orderGuide > div {
+  max-width: 580px;
+}
+.orderGuide > a {
+  flex-shrink: 0;
+}
+@media (max-width: 62em) {
+  .hero {
+    gap: 30px;
+  }
+  .heroTitle {
+    font-size: 4rem;
+  }
+  .facts {
+    gap: 20px;
+  }
+}
+@media (max-width: 48em) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 28px 0;
+  }
+  .heroTitle {
+    font-size: clamp(3.5rem, 12vw, 5rem);
+  }
+  .heroCopy {
+    padding: 12px 0;
+  }
+  .facts {
+    grid-template-columns: 1fr;
+    padding: 24px 0;
+    gap: 22px;
+  }
+  .facts span {
+    font-size: 12px;
+  }
+  .section {
+    margin-top: 40px;
+  }
+  .sectionHeading {
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .aircraftGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .aircraftLink {
+    padding: 20px;
+  }
+  .index {
+    margin-bottom: 10px;
+  }
+  .orderGuide {
+    margin: 40px 0;
+    padding: 24px;
+    flex-direction: column;
+    align-items: start;
+  }
 }

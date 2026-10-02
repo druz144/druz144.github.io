@@ -1,0 +1,9 @@
+.revell {
+  color: light-dark(#145da0, #8cc4ff);
+  font-weight: 700;
+}
+
+.zvezda {
+  color: light-dark(#b42332, #ff9a9e);
+  font-weight: 700;
+}

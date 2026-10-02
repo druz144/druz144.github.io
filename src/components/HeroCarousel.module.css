@@ -1,0 +1,126 @@
+.carousel {
+  min-width: 0;
+  width: 100%;
+  max-width: 520px;
+}
+.track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  border-radius: 12px;
+  background: #12231e;
+  color: #fff;
+}
+.track::-webkit-scrollbar {
+  display: none;
+}
+.slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.product {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+.product:focus-visible {
+  outline-offset: -4px;
+}
+.product img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+.caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  min-height: 90px;
+}
+.caption span {
+  display: block;
+  font-size: 10px;
+  color: #b5c7bf;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.caption strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+.caption svg {
+  flex-shrink: 0;
+}
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 10px;
+  color: var(--site-accent);
+}
+.counter {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+  width: 88px;
+  min-width: 0;
+}
+.selectors,
+.arrows {
+  display: flex;
+  flex-shrink: 0;
+}
+.controls button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.controls button:hover {
+  background: var(--site-soft);
+}
+.selector span {
+  width: 7px;
+  height: 7px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+.selector[aria-pressed="true"] span {
+  background: currentColor;
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+:global([data-mantine-color-scheme="dark"]) .track {
+  background: var(--site-accent);
+  color: #202e2a;
+}
+:global([data-mantine-color-scheme="dark"]) .caption span {
+  color: #465047;
+}

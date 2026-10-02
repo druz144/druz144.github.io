@@ -1,0 +1,89 @@
+:root {
+  --site-bg: #f6f5f0;
+  --site-surface: #ffffff;
+  --site-ink: #202e2a;
+  --site-muted: #616c65;
+  --site-line: #dddfd7;
+  --site-soft: #eeefe8;
+  --site-accent: var(--mantine-color-workshop-7);
+}
+:root[data-mantine-color-scheme="dark"] {
+  --site-bg: #151c19;
+  --site-surface: #1e2823;
+  --site-ink: #eef2ea;
+  --site-muted: #b1beb5;
+  --site-line: #39463e;
+  --site-soft: #27332c;
+  --site-accent: var(--mantine-color-workshop-3);
+  --mantine-color-body: var(--site-bg);
+}
+body {
+  background: var(--site-bg);
+  color: var(--site-ink);
+}
+a,
+button,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+:focus-visible {
+  outline: 3px solid var(--site-accent);
+  outline-offset: 4px;
+}
+::selection {
+  background: #cee8dd;
+  color: #104d3b;
+}
+[data-mantine-color-scheme="dark"] ::selection {
+  background: var(--site-accent);
+  color: #202e2a;
+}
+h1,
+h2,
+h3 {
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.mantine-Card-root,
+.mantine-Paper-root {
+  background: var(--site-surface);
+}
+.mantine-Badge-root {
+  max-width: 100%;
+}
+.mantine-Badge-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.page {
+  padding-top: 48px;
+  padding-bottom: 72px;
+}
+.eyebrow {
+  color: var(--site-accent);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.page-title {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.12;
+}
+@media (max-width: 48em) {
+  .page {
+    padding-top: 28px;
+    padding-bottom: 44px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

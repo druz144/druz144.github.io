@@ -16,6 +16,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { KitManufacturerName } from "../components/KitManufacturerName";
 import {
   IconAlertCircle,
   IconArrowRight,
@@ -60,7 +61,7 @@ export function CartPage() {
       email: (value) =>
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
           ? null
-          : "Invalid e-mail address",
+          : "Enter a valid email address",
       country: (value) =>
         value.trim().length === 0 ? "Country is required" : null,
     },
@@ -133,7 +134,7 @@ export function CartPage() {
       paymentMethod: "PayPal",
       estimatedTotalEur: hasAnyPrice ? estimatedTotalEur : null,
       priceNote:
-        "Prices are non-binding; the final amount will be confirmed by e-mail.",
+        "This is an estimate. The final amount will be confirmed by email.",
       items: payloadItems,
       itemsSummary,
     };
@@ -163,12 +164,15 @@ export function CartPage() {
   };
 
   return (
-    <Container size="md" py="xl">
+    <Container size="lg" className="page">
       <Stack gap="xs" mb="xl">
-        <Title order={2}>Your order</Title>
+        <Text className="eyebrow">From the workbench to you</Text>
+        <Title order={1} className="page-title">
+          Your order
+        </Title>
         <Text c="dimmed" size="sm">
-          Review the items below, leave your contact details, and I'll get back
-          to you to confirm the order.
+          Review your items and send an order request. I’ll confirm the details
+          and final price by email. No payment is taken on this website.
         </Text>
       </Stack>
 
@@ -196,9 +200,9 @@ export function CartPage() {
         </Alert>
       )}
 
-      <Stack gap="xl">
+      <div className={classes.checkout}>
         <section>
-          <Title order={4} mb="sm">
+          <Title order={2} size="h3" mb="sm">
             Items{" "}
             {totalCount > 0 && (
               <Text span c="dimmed">
@@ -269,9 +273,15 @@ export function CartPage() {
                           <Text c="dimmed" size="xs">
                             {kit.planeManufacturer} · {kit.planeModel} ·{" "}
                             {kit.scale}
-                            {kit.kitManufacturer
-                              ? ` · ${kit.kitManufacturer}`
-                              : ""}
+                            {kit.kitManufacturer && (
+                              <>
+                                {" "}
+                                ·{" "}
+                                <KitManufacturerName
+                                  name={kit.kitManufacturer}
+                                />
+                              </>
+                            )}
                           </Text>
                         )}
                         {line.unitPriceEur != null && (
@@ -354,8 +364,7 @@ export function CartPage() {
                   </Text>
                 )}
                 <Text size="sm">
-                  Trackable airmail shipping:{" "}
-                  {priceFormatter.format(shippingEur)}
+                  Tracked airmail shipping: {priceFormatter.format(shippingEur)}
                 </Text>
                 {hasAnyPrice && (
                   <Group gap="sm">
@@ -371,16 +380,16 @@ export function CartPage() {
                   Payment by PayPal · Shipping details
                 </Anchor>
                 <Text c="dimmed" size="xs" ta="right">
-                  Prices are non-binding; the final amount will be confirmed by
-                  e-mail.
+                  This is an estimate. The final amount will be confirmed by
+                  email.
                 </Text>
               </Stack>
             </Stack>
           )}
         </section>
 
-        <section>
-          <Title order={4} mb="sm">
+        <section className={classes.details}>
+          <Title order={2} size="h3" mb="sm">
             Your details
           </Title>
           <Box
@@ -397,7 +406,7 @@ export function CartPage() {
                 {...form.getInputProps("name")}
               />
               <TextInput
-                label="E-mail"
+                label="Email"
                 type="email"
                 autoComplete="email"
                 disabled={submitState === "loading"}
@@ -414,9 +423,9 @@ export function CartPage() {
                 {...form.getInputProps("country")}
               />
               <Textarea
-                label="Notes"
+                label="Notes (optional)"
                 disabled={submitState === "loading"}
-                placeholder="Anything I should know about the order..."
+                placeholder="Questions about compatibility or anything else I should know…"
                 minRows={4}
                 autosize
                 {...form.getInputProps("message")}
@@ -426,12 +435,16 @@ export function CartPage() {
                 loading={submitState === "loading"}
                 disabled={isEmpty}
               >
-                Place order
+                Send order request
               </Button>
+              <Text size="xs" c="dimmed">
+                I’ll reply by email to confirm your order and arrange payment by
+                PayPal.
+              </Text>
             </Stack>
           </Box>
         </section>
-      </Stack>
+      </div>
     </Container>
   );
 }

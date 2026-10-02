@@ -1,20 +1,87 @@
-import { Button, Container, Stack, Title } from "@mantine/core";
-import { Link, useLocation } from "react-router-dom";
+import { Anchor, Button, Container, Stack, Text, Title } from "@mantine/core";
+import { IconArrowRight } from "@tabler/icons-react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { ShopInformation } from "../components/ShopInformation";
-import { informationLinks } from "../data/shop";
+import { goodToKnowLinks, informationLinks } from "../data/shop";
+import classes from "./Information.module.css";
+
+const introductions: Record<string, string> = {
+  "/contact":
+    "Need help choosing parts or checking compatibility? Get in touch with Sergey directly.",
+  "/payment-shipping":
+    "A personal ordering process, from the workbench to your door.",
+  "/discount":
+    "More details for your next build, with a little saving along the way.",
+  "/useful-links":
+    "Practical references to help with your airliner model build.",
+};
 
 export function InformationPage() {
   const { pathname } = useLocation();
   const information = informationLinks.find((link) => link.href === pathname);
   return (
-    <Container size="md" py="xl">
-      <Stack align="flex-start" gap="lg">
-        <Title order={1}>{information?.label}</Title>
-        <ShopInformation section={pathname} />
-        <Button component={Link} to="/products" variant="light">
-          Browse products
-        </Button>
-      </Stack>
+    <Container size="lg" className="page">
+      <Text className="eyebrow" mb="sm">
+        {pathname === "/contact" ? "Get in touch" : "Good to know"}
+      </Text>
+      <Title order={1} className="page-title">
+        {information?.label}
+      </Title>
+      <Text c="dimmed" mt="md" maw={620}>
+        {introductions[pathname]}
+      </Text>
+      <div className={classes.layout}>
+        <nav aria-label="Information topics" className={classes.navigation}>
+          {goodToKnowLinks.map((link) => (
+            <NavLink key={link.href} to={link.href}>
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
+        <Stack gap="xl" className={classes.content}>
+          <ShopInformation section={pathname} />
+          {pathname === "/payment-shipping" && (
+            <div className={classes.steps}>
+              <Title order={2} size="h3" mb="lg">
+                How to order
+              </Title>
+              <ol>
+                <li>
+                  <strong>Choose your parts.</strong> Check the scale and
+                  compatible kit, then add the items to your cart.
+                </li>
+                <li>
+                  <strong>Send your request.</strong> Enter your name, email and
+                  country. No payment is taken on the website.
+                </li>
+                <li>
+                  <strong>Confirm by email.</strong> I’ll confirm your order and
+                  final total, and arrange payment by PayPal.
+                </li>
+              </ol>
+            </div>
+          )}
+          {pathname === "/contact" && (
+            <Text size="sm" c="dimmed">
+              For compatibility questions, please include your aircraft, scale
+              and kit manufacturer. For an order, you can{" "}
+              <Anchor component={Link} to="/cart">
+                send a request from your cart
+              </Anchor>
+              .
+            </Text>
+          )}
+          <Button
+            component={Link}
+            to="/products"
+            variant="light"
+            rightSection={<IconArrowRight size={18} />}
+            style={{ alignSelf: "flex-start" }}
+          >
+            Browse products
+          </Button>
+        </Stack>
+      </div>
     </Container>
   );
 }

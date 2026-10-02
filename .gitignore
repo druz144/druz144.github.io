@@ -27,5 +27,5 @@ dist-ssr
 *.sw?
 
 # Browser test artifacts
-/playwright-report/
 /test-results/
+/.vitest/
