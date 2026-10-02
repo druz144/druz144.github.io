@@ -1,16 +1,21 @@
-import { AppShell } from "@mantine/core";
+import { Box } from "@mantine/core";
 import { Outlet } from "react-router-dom";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 
 export function MainLayout() {
   return (
-    <AppShell header={{ height: 76 }}>
-      <AppShell.Header>
+    <>
+      <Box
+        component="header"
+        style={{
+          borderBottom: "1px solid var(--mantine-color-default-border)",
+        }}
+      >
         <AppHeader />
-      </AppShell.Header>
-      <AppShell.Main>
+      </Box>
+      <main>
         <Outlet />
-      </AppShell.Main>
-    </AppShell>
+      </main>
+    </>
   );
 }

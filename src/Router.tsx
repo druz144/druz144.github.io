@@ -1,10 +1,17 @@
 import { createHashRouter, RouterProvider } from "react-router-dom";
+import { informationLinks } from "./data/shop";
 import { MainLayout } from "./layouts/MainLayout";
 
 const router = createHashRouter([
   {
     element: <MainLayout />,
     children: [
+      ...informationLinks.map((link) => ({
+        path: link.href,
+        lazy: async () => ({
+          Component: (await import("./pages/Information")).InformationPage,
+        }),
+      })),
       {
         path: "/",
         lazy: async () => ({

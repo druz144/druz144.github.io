@@ -29,6 +29,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "../cart/useCart";
 import classes from "./Cart.module.css";
 import { getKitImageUrl, kitsById } from "../data/kits";
+import { orderEstimate } from "../data/shop";
 import { priceFormatter } from "../utils/format";
 
 type SubmitState = "idle" | "loading" | "success" | "error";
@@ -78,10 +79,15 @@ export function CartPage() {
     };
   });
 
-  const estimatedTotalEur = lines.reduce(
+  const subtotalEur = lines.reduce(
     (sum, line) => sum + (line.lineTotalEur ?? 0),
     0,
   );
+  const {
+    discountEur,
+    shippingEur,
+    totalEur: estimatedTotalEur,
+  } = orderEstimate(subtotalEur, totalCount);
   const hasAnyPrice = lines.some((line) => line.lineTotalEur != null);
   const hasMissingPrice = lines.some((line) => line.lineTotalEur == null);
 
@@ -121,6 +127,10 @@ export function CartPage() {
       message: values.message.trim(),
       _subject: `Order from ${values.name}`,
       itemsCount: totalCount,
+      subtotalEur: hasAnyPrice ? subtotalEur : null,
+      discountEur,
+      shippingEur,
+      paymentMethod: "PayPal",
       estimatedTotalEur: hasAnyPrice ? estimatedTotalEur : null,
       priceNote:
         "Prices are non-binding; the final amount will be confirmed by e-mail.",
@@ -325,7 +335,28 @@ export function CartPage() {
 
               <Divider />
 
-              <Stack gap={4} align="flex-end">
+              <Stack
+                gap={4}
+                align="flex-end"
+                role="region"
+                aria-label="Order estimate"
+              >
+                {hasAnyPrice && (
+                  <Text size="sm">
+                    Kit subtotal{hasMissingPrice ? " (partial)" : ""}:{" "}
+                    {priceFormatter.format(subtotalEur)}
+                  </Text>
+                )}
+                {discountEur > 0 && (
+                  <Text size="sm" c="green">
+                    Multi-kit discount (5%): −
+                    {priceFormatter.format(discountEur)}
+                  </Text>
+                )}
+                <Text size="sm">
+                  Trackable airmail shipping:{" "}
+                  {priceFormatter.format(shippingEur)}
+                </Text>
                 {hasAnyPrice && (
                   <Group gap="sm">
                     <Text c="dimmed" size="sm">
@@ -336,6 +367,9 @@ export function CartPage() {
                     </Text>
                   </Group>
                 )}
+                <Anchor component={Link} to="/payment-shipping" size="sm">
+                  Payment by PayPal · Shipping details
+                </Anchor>
                 <Text c="dimmed" size="xs" ta="right">
                   Prices are non-binding; the final amount will be confirmed by
                   e-mail.

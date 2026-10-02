@@ -1,9 +1,12 @@
+import type { CatalogCategory } from "./catalog";
+
 export type ManualLink = {
   label?: string;
   url: string;
 };
 
 export type Kit = {
+  category?: CatalogCategory;
   id: string;
   name: string;
   type?: string;
