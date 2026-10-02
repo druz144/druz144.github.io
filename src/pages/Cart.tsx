@@ -24,7 +24,7 @@ import {
   IconPlus,
   IconTrash,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../cart/useCart";
 import classes from "./Cart.module.css";
@@ -36,9 +36,16 @@ type SubmitState = "idle" | "loading" | "success" | "error";
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xvzlawdw";
 
 export function CartPage() {
+  const submitting = useRef(false);
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
-  const { items, totalCount, incrementItem, decrementItem, removeItem, clear } =
-    useCart();
+  const {
+    items,
+    totalCount,
+    incrementItem,
+    decrementItem,
+    removeItem,
+    removeSubmittedItems,
+  } = useCart();
 
   const form = useForm({
     initialValues: {
@@ -50,7 +57,7 @@ export function CartPage() {
     validate: {
       name: (value) => (value.trim().length === 0 ? "Name is required" : null),
       email: (value) =>
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
           ? null
           : "Invalid e-mail address",
       country: (value) =>
@@ -81,7 +88,8 @@ export function CartPage() {
   const isEmpty = items.length === 0;
 
   const handleSubmit = async (values: typeof form.values) => {
-    if (isEmpty) return;
+    if (isEmpty || submitting.current) return;
+    submitting.current = true;
     setSubmitState("loading");
 
     const payloadItems = lines.map((line) => ({
@@ -107,10 +115,10 @@ export function CartPage() {
       .join("\n");
 
     const body = {
-      name: values.name,
-      email: values.email,
-      country: values.country,
-      message: values.message,
+      name: values.name.trim(),
+      email: values.email.trim(),
+      country: values.country.trim(),
+      message: values.message.trim(),
       _subject: `Order from ${values.name}`,
       itemsCount: totalCount,
       estimatedTotalEur: hasAnyPrice ? estimatedTotalEur : null,
@@ -128,16 +136,19 @@ export function CartPage() {
           Accept: "application/json",
         },
         body: JSON.stringify(body),
+        signal: AbortSignal.timeout(30_000),
       });
       if (response.ok) {
         setSubmitState("success");
         form.reset();
-        clear();
+        removeSubmittedItems(items);
       } else {
         setSubmitState("error");
       }
     } catch {
       setSubmitState("error");
+    } finally {
+      submitting.current = false;
     }
   };
 
@@ -338,28 +349,39 @@ export function CartPage() {
           <Title order={4} mb="sm">
             Your details
           </Title>
-          <Box component="form" onSubmit={form.onSubmit(handleSubmit)}>
+          <Box
+            component="form"
+            onSubmit={(event) => form.onSubmit(handleSubmit)(event)}
+          >
             <Stack gap="md">
               <TextInput
                 label="Name"
+                autoComplete="name"
+                disabled={submitState === "loading"}
                 placeholder="Your name"
                 withAsterisk
                 {...form.getInputProps("name")}
               />
               <TextInput
                 label="E-mail"
+                type="email"
+                autoComplete="email"
+                disabled={submitState === "loading"}
                 placeholder="your@email.com"
                 withAsterisk
                 {...form.getInputProps("email")}
               />
               <TextInput
                 label="Country"
+                autoComplete="country-name"
+                disabled={submitState === "loading"}
                 placeholder="Your country"
                 withAsterisk
                 {...form.getInputProps("country")}
               />
               <Textarea
                 label="Notes"
+                disabled={submitState === "loading"}
                 placeholder="Anything I should know about the order..."
                 minRows={4}
                 autosize

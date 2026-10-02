@@ -32,7 +32,7 @@ import classes from "./KitDetails.module.css";
 export function KitDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const kit = id ? kitsById[id] : undefined;
+  const kit = id && Object.hasOwn(kitsById, id) ? kitsById[id] : undefined;
 
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxOpened, lightbox] = useDisclosure(false);

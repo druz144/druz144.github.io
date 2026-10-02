@@ -25,9 +25,16 @@ pnpm dev
 Run static checks:
 
 ```sh
-pnpm format
+pnpm format:check
 pnpm lint
 pnpm typecheck
+```
+
+Run browser regression tests (checkout requests are mocked):
+
+```sh
+pnpm exec playwright install chromium
+pnpm test
 ```
 
 Build app:

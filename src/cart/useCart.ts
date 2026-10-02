@@ -17,10 +17,11 @@ function sanitize(items: unknown): CartItem[] {
     if (!raw || typeof raw !== "object") continue;
     const candidate = raw as Partial<CartItem>;
     if (typeof candidate.id !== "string") continue;
-    if (!(candidate.id in kitsById)) continue;
+    if (!Object.hasOwn(kitsById, candidate.id)) continue;
     if (seen.has(candidate.id)) continue;
-    const amount = Math.floor(Number(candidate.amount));
-    if (!Number.isFinite(amount) || amount <= 0) continue;
+    if (typeof candidate.amount !== "number") continue;
+    const amount = Math.floor(candidate.amount);
+    if (!Number.isSafeInteger(amount) || amount <= 0) continue;
     seen.add(candidate.id);
     result.push({ id: candidate.id, amount });
   }
@@ -43,7 +44,8 @@ export function useCart() {
 
   const setAmount = useCallback(
     (id: string, amount: number) => {
-      const next = Math.max(0, Math.floor(amount));
+      if (!Number.isSafeInteger(amount)) return;
+      const next = Math.max(0, amount);
       setItems((prev) => {
         const cleaned = sanitize(prev);
         const existing = cleaned.findIndex((it) => it.id === id);
@@ -52,7 +54,7 @@ export function useCart() {
           return cleaned.filter((it) => it.id !== id);
         }
         if (existing === -1) {
-          if (!(id in kitsById)) return cleaned;
+          if (!Object.hasOwn(kitsById, id)) return cleaned;
           return [...cleaned, { id, amount: next }];
         }
         const copy = [...cleaned];
@@ -65,15 +67,18 @@ export function useCart() {
 
   const addItem = useCallback(
     (id: string, n: number = 1) => {
-      const delta = Math.max(0, Math.floor(n));
+      if (!Number.isSafeInteger(n)) return;
+      const delta = Math.max(0, n);
       if (delta === 0) return;
       setItems((prev) => {
         const cleaned = sanitize(prev);
         const existing = cleaned.findIndex((it) => it.id === id);
         if (existing === -1) {
-          if (!(id in kitsById)) return cleaned;
+          if (!Object.hasOwn(kitsById, id)) return cleaned;
           return [...cleaned, { id, amount: delta }];
         }
+        if (!Number.isSafeInteger(cleaned[existing].amount + delta))
+          return cleaned;
         const copy = [...cleaned];
         copy[existing] = { id, amount: copy[existing].amount + delta };
         return copy;
@@ -113,6 +118,22 @@ export function useCart() {
     setItems([]);
   }, [setItems]);
 
+  const removeSubmittedItems = useCallback(
+    (submitted: CartItem[]) => {
+      setItems((prev) =>
+        sanitize(prev)
+          .map((item) => ({
+            ...item,
+            amount:
+              item.amount -
+              (submitted.find((line) => line.id === item.id)?.amount ?? 0),
+          }))
+          .filter((item) => item.amount > 0),
+      );
+    },
+    [setItems],
+  );
+
   const totalCount = useMemo(
     () => items.reduce((sum, it) => sum + it.amount, 0),
     [items],
@@ -128,5 +149,6 @@ export function useCart() {
     decrementItem,
     removeItem,
     clear,
+    removeSubmittedItems,
   };
 }

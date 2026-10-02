@@ -1,6 +1,6 @@
 name: CI/CD
 
-on: push
+on: [push, pull_request]
 
 permissions:
   contents: read
@@ -25,6 +25,19 @@ jobs:
         if: success() || steps.setup.outcome == 'success'
         run: pnpm lint
 
+  test:
+    name: Browser tests
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Set up Node.js and pnpm
+        uses: ./.github/actions/setup-node-and-pnpm
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Test app
+        run: pnpm test
+
   build:
     name: "🧱 Build"
     runs-on: ubuntu-24.04
@@ -44,9 +57,10 @@ jobs:
 
   deploy:
     name: "🚀 Deploy"
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs:
       - check
+      - test
       - build
     runs-on: ubuntu-24.04
     permissions:

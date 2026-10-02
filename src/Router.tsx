@@ -1,8 +1,4 @@
 import { createHashRouter, RouterProvider } from "react-router-dom";
-import { CartPage } from "./pages/Cart";
-import { ProductsPage } from "./pages/Products";
-import { KitDetailsPage } from "./pages/KitDetails";
-import { HomePage } from "./pages/Home";
 import { MainLayout } from "./layouts/MainLayout";
 
 const router = createHashRouter([
@@ -11,19 +7,27 @@ const router = createHashRouter([
     children: [
       {
         path: "/",
-        element: <HomePage />,
+        lazy: async () => ({
+          Component: (await import("./pages/Home")).HomePage,
+        }),
       },
       {
         path: "/products",
-        element: <ProductsPage />,
+        lazy: async () => ({
+          Component: (await import("./pages/Products")).ProductsPage,
+        }),
       },
       {
         path: "/products/:id",
-        element: <KitDetailsPage />,
+        lazy: async () => ({
+          Component: (await import("./pages/KitDetails")).KitDetailsPage,
+        }),
       },
       {
         path: "/cart",
-        element: <CartPage />,
+        lazy: async () => ({
+          Component: (await import("./pages/Cart")).CartPage,
+        }),
       },
     ],
   },
