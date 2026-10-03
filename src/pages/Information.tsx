@@ -1,4 +1,4 @@
-import { Anchor, Button, Container, Stack, Text, Title } from "@mantine/core";
+import { Button, Container, Stack, Text, Title } from "@mantine/core";
 import { IconArrowRight } from "@tabler/icons-react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { ShopInformation } from "../components/ShopInformation";
@@ -18,11 +18,12 @@ const introductions: Record<string, string> = {
 
 export function InformationPage() {
   const { pathname } = useLocation();
+  const isContact = pathname === "/contact";
   const information = informationLinks.find((link) => link.href === pathname);
   return (
-    <Container size="lg" className="page">
+    <Container size={isContact ? 720 : "lg"} className="page">
       <Text className="eyebrow" mb="sm">
-        {pathname === "/contact" ? "Get in touch" : "Good to know"}
+        {isContact ? "Get in touch" : "Good to know"}
       </Text>
       <Title order={1} className="page-title">
         {information?.label}
@@ -30,14 +31,18 @@ export function InformationPage() {
       <Text c="dimmed" mt="md" maw={620}>
         {introductions[pathname]}
       </Text>
-      <div className={classes.layout}>
-        <nav aria-label="Information topics" className={classes.navigation}>
-          {goodToKnowLinks.map((link) => (
-            <NavLink key={link.href} to={link.href}>
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
+      <div
+        className={`${classes.layout} ${isContact ? classes.contactLayout : ""}`}
+      >
+        {!isContact && (
+          <nav aria-label="Information topics" className={classes.navigation}>
+            {goodToKnowLinks.map((link) => (
+              <NavLink key={link.href} to={link.href}>
+                {link.label}
+              </NavLink>
+            ))}
+          </nav>
+        )}
         <Stack gap="xl" className={classes.content}>
           <ShopInformation section={pathname} />
           {pathname === "/payment-shipping" && (
@@ -61,25 +66,23 @@ export function InformationPage() {
               </ol>
             </div>
           )}
-          {pathname === "/contact" && (
+          {isContact && (
             <Text size="sm" c="dimmed">
               For compatibility questions, please include your aircraft, scale
-              and kit manufacturer. For an order, you can{" "}
-              <Anchor component={Link} to="/cart">
-                send a request from your cart
-              </Anchor>
-              .
+              and kit manufacturer.
             </Text>
           )}
-          <Button
-            component={Link}
-            to="/products"
-            variant="light"
-            rightSection={<IconArrowRight size={18} />}
-            style={{ alignSelf: "flex-start" }}
-          >
-            Browse products
-          </Button>
+          {!isContact && (
+            <Button
+              component={Link}
+              to="/products"
+              variant="light"
+              rightSection={<IconArrowRight size={18} />}
+              style={{ alignSelf: "flex-start" }}
+            >
+              Browse products
+            </Button>
+          )}
         </Stack>
       </div>
     </Container>

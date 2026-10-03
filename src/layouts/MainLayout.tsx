@@ -2,7 +2,7 @@ import { Anchor, Container, Text } from "@mantine/core";
 import { useEffect, useRef } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { AppHeader } from "../components/AppHeader/AppHeader";
-import { goodToKnowLinks, informationLinks, usefulLinks } from "../data/shop";
+import { goodToKnowLinks, informationLinks } from "../data/shop";
 import { kitsById } from "../data/kits";
 import classes from "./MainLayout.module.css";
 
@@ -90,26 +90,6 @@ export function MainLayout() {
                     <NavLink key={link.href} to={link.href}>
                       {link.label}
                     </NavLink>
-                  ))}
-                </div>
-              </nav>
-              <nav
-                aria-label="Useful links"
-                className={classes.footerResources}
-              >
-                <Text className="eyebrow" mb="xs">
-                  Useful links
-                </Text>
-                <div className={classes.footerLinks}>
-                  {usefulLinks.map((link) => (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {link.label}
-                    </a>
                   ))}
                 </div>
               </nav>

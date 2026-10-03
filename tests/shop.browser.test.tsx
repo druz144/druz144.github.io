@@ -132,6 +132,31 @@ test("cart quantities persist across navigation and app remounts", async () => {
     .toBeDisabled();
 });
 
+test("carousel keyboard navigation keeps focus on a visible control", async () => {
+  await mount("/");
+  const carousel = page.getByRole("region", { name: "From the workbench" });
+  carousel.getByRole("link").element().focus();
+  await userEvent.keyboard("{ArrowRight}");
+  const winglets = carousel.getByRole("button", { name: "Show winglets" });
+  await expect.element(winglets).toHaveAttribute("aria-pressed", "true");
+  await expect.element(winglets).toHaveFocus();
+  expect(document.activeElement?.closest('[aria-hidden="true"]')).toBeNull();
+});
+
+test("checkout validates required details without sending an order", async () => {
+  await addKit();
+  await page.getByRole("button", { name: "Send order request" }).click();
+  await expect.element(page.getByText("Name is required")).toBeVisible();
+  await expect
+    .element(page.getByText("Enter a valid email address"))
+    .toBeVisible();
+  await expect.element(page.getByText("Country is required")).toBeVisible();
+  expect(checkout).not.toHaveBeenCalled();
+  await expect
+    .element(page.getByRole("heading", { name: "Items (1)" }))
+    .toBeVisible();
+});
+
 test("invalid stored items and prototype product IDs do not crash", async () => {
   localStorage.setItem(
     key,
@@ -145,7 +170,9 @@ test("invalid stored items and prototype product IDs do not crash", async () => 
   await mount("/cart");
   await expect.element(page.getByText("Your cart is empty.")).toBeVisible();
   await mount("/products/constructor");
-  await expect.element(page.getByText("Kit not found.")).toBeVisible();
+  await expect
+    .element(page.getByRole("heading", { level: 1, name: "Kit not found." }))
+    .toBeVisible();
 });
 
 test("failed checkout preserves the cart and supports retry", async () => {
@@ -195,6 +222,9 @@ test("gallery opens and supports keyboard navigation", async () => {
   await mount("/products/cfm56-7b_revell");
   await page.getByRole("button", { name: /Open .* image 1 of/ }).click();
   await expect.element(page.getByRole("dialog")).toBeVisible();
+  await expect
+    .element(page.getByRole("button", { name: "Close product photos" }))
+    .toBeVisible();
   await userEvent.keyboard("{ArrowRight}");
   await expect
     .element(page.getByRole("dialog"))
@@ -386,15 +416,8 @@ test("information navigation exposes contact and order details", async () => {
     .element(navigation.getByRole("link", { name: "Contact us" }))
     .not.toBeInTheDocument();
   await expect
-    .element(
-      page
-        .getByRole("contentinfo")
-        .getByRole("link", { name: /How to fit a pylon/ }),
-    )
-    .toHaveAttribute(
-      "href",
-      "https://airlinercafe.com/forums/topic/how-to-fit-a-pylon-to-a-wing-the-final-revision/",
-    );
+    .element(footer.getByRole("navigation", { name: "Useful links" }))
+    .not.toBeInTheDocument();
   await page
     .getByRole("navigation", { name: "Main navigation" })
     .getByRole("link", { name: "Contact", exact: true })
@@ -423,10 +446,12 @@ test("information navigation exposes contact and order details", async () => {
     .toMatchTextContent(/€12\.00/);
   await navigation.getByRole("link", { name: "Discount", exact: true }).click();
   await expect.element(page.getByText("5% off")).toBeVisible();
+  await expect.element(goodToKnow).toHaveAttribute("aria-current", "location");
   await page
     .getByRole("navigation", { name: "Information topics" })
     .getByRole("link", { name: "Useful links" })
     .click();
+  await expect.element(goodToKnow).toHaveAttribute("aria-current", "location");
   await expect
     .element(
       page.getByRole("main").getByRole("link", { name: /How to fit a pylon/ }),
@@ -470,7 +495,10 @@ test("pagination and product back links preserve catalog context", async () => {
   await expect
     .poll(() => page.getByRole("heading", { level: 2 }).elements().length)
     .toBe(12);
-  await page.getByRole("button", { name: "Page 2", exact: true }).click();
+  await expect
+    .element(page.getByRole("button", { name: "Previous page" }))
+    .toBeDisabled();
+  await page.getByRole("button", { name: "Next page", exact: true }).click();
   await expect.element(page.getByText("Showing 13–24 of 63")).toBeVisible();
   const firstTitle = page
     .getByRole("heading", { level: 2 })
@@ -507,7 +535,10 @@ test.each(["light", "dark"])(
     localStorage.setItem("mantine-color-scheme-value", scheme);
     localStorage.setItem(
       key,
-      JSON.stringify([{ id: "cfm56-7b_revell", amount: 1 }]),
+      JSON.stringify([
+        { id: "cfm56-7b_revell", amount: 1 },
+        { id: "fans_spinners_cf6-80c2", amount: 1 },
+      ]),
     );
     for (const route of [
       "/",

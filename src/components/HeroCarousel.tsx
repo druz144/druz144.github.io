@@ -30,6 +30,7 @@ const highlights = [
 
 export function HeroCarousel() {
   const track = useRef<HTMLDivElement>(null);
+  const selectors = useRef<Array<HTMLButtonElement | null>>([]);
   const [active, setActive] = useState(0);
 
   function showSlide(index: number) {
@@ -55,15 +56,20 @@ export function HeroCarousel() {
         onScroll={(event) => {
           const { scrollLeft, clientWidth } = event.currentTarget;
           if (clientWidth) {
-            setActive(
-              Math.max(
-                0,
-                Math.min(
-                  highlights.length - 1,
-                  Math.round(scrollLeft / clientWidth),
-                ),
+            const next = Math.max(
+              0,
+              Math.min(
+                highlights.length - 1,
+                Math.round(scrollLeft / clientWidth),
               ),
             );
+            if (
+              next !== active &&
+              track.current?.contains(document.activeElement)
+            ) {
+              selectors.current[next]?.focus({ preventScroll: true });
+            }
+            setActive(next);
           }
         }}
       >
@@ -119,6 +125,9 @@ export function HeroCarousel() {
           {highlights.map((item, index) => (
             <button
               key={item.id}
+              ref={(element) => {
+                selectors.current[index] = element;
+              }}
               type="button"
               className={classes.selector}
               aria-label={`Show ${item.category.toLowerCase()}`}

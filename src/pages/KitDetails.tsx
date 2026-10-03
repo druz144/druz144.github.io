@@ -1,6 +1,5 @@
 import {
   ActionIcon,
-  Alert,
   Anchor,
   Badge,
   Button,
@@ -86,11 +85,16 @@ export function KitDetailsPage() {
 
   if (!kit) {
     return (
-      <Container size="md" py="xl">
+      <Container size="lg" className="page">
         <Stack gap="md" align="flex-start">
-          <Alert color="yellow" variant="light">
+          <Text className="eyebrow">404 / Product not found</Text>
+          <Title order={1} className="page-title">
             Kit not found.
-          </Alert>
+          </Title>
+          <Text c="dimmed">
+            This product link is unavailable. Browse the catalog to find your
+            next kit.
+          </Text>
           <Button
             component={Link}
             to="/products"
@@ -302,6 +306,7 @@ export function KitDetailsPage() {
         size="xl"
         centered
         withCloseButton
+        closeButtonProps={{ "aria-label": "Close product photos" }}
         title={`${kit.name} — image ${lightboxIndex + 1} of ${kit.images.length}`}
         padding="sm"
       >

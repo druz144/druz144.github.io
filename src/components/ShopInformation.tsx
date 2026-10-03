@@ -39,7 +39,7 @@ export function ShopInformation({ section }: { section: string }) {
             {priceFormatter.format(shop.shippingFirstEur)} for the first kit.
           </Text>
           <Text>
-            Each additional kit:
+            Each additional kit:{" "}
             {priceFormatter.format(shop.shippingAdditionalEur)}.
           </Text>
         </Stack>

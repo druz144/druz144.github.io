@@ -182,6 +182,7 @@ export function CartPage() {
           color="green"
           mb="lg"
           withCloseButton
+          closeButtonLabel="Dismiss order confirmation"
           onClose={() => setSubmitState("idle")}
         >
           Order sent — thank you! I'll be in touch shortly.
@@ -194,6 +195,7 @@ export function CartPage() {
           color="red"
           mb="lg"
           withCloseButton
+          closeButtonLabel="Dismiss order error"
           onClose={() => setSubmitState("idle")}
         >
           Something went wrong. Please try again.
@@ -251,7 +253,10 @@ export function CartPage() {
                     padding="sm"
                     className={classes.lineCard}
                   >
-                    <div className={classes.lineBody}>
+                    <div
+                      className={classes.lineBody}
+                      data-with-image={Boolean(imageUrl)}
+                    >
                       {imageUrl && (
                         <Link
                           to={`/products/${line.id}`}
@@ -330,6 +335,7 @@ export function CartPage() {
 
                       <Tooltip label="Remove" withArrow position="left">
                         <ActionIcon
+                          className={classes.remove}
                           variant="subtle"
                           color="red"
                           onClick={() => removeItem(line.id)}
@@ -358,7 +364,7 @@ export function CartPage() {
                   </Text>
                 )}
                 {discountEur > 0 && (
-                  <Text size="sm" c="green">
+                  <Text size="sm" c="var(--site-accent)">
                     Multi-kit discount (5%): −
                     {priceFormatter.format(discountEur)}
                   </Text>

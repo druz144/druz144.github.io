@@ -171,6 +171,9 @@ export function ProductsPage() {
                 getItemProps={(pageNumber) => ({
                   "aria-label": `Page ${pageNumber}`,
                 })}
+                getControlProps={(control) => ({
+                  "aria-label": `${control[0].toUpperCase()}${control.slice(1)} page`,
+                })}
                 onChange={(value) => {
                   const next = new URLSearchParams(params);
                   next.set("page", String(value));

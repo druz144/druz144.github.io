@@ -30,7 +30,7 @@
 }
 .footerInner {
   display: grid;
-  grid-template-columns: 0.8fr 2.2fr;
+  grid-template-columns: 1fr 2fr;
   align-items: start;
   gap: 48px;
   padding-top: 40px;
@@ -50,7 +50,7 @@
 }
 .footerNavigation {
   display: grid;
-  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr) minmax(0, 1.4fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 32px;
 }
 .footerLinks {
@@ -105,8 +105,5 @@
   .footerNavigation {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
     gap: 24px;
-  }
-  .footerResources {
-    grid-column: 1 / -1;
   }
 }

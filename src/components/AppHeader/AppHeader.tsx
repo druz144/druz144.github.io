@@ -13,12 +13,20 @@ import {
   IconSun,
   IconSearch,
 } from "@tabler/icons-react";
-import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  matchPath,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { useCart } from "../../cart/useCart";
+import { goodToKnowLinks } from "../../data/shop";
 import classes from "./AppHeader.module.css";
 
 export function AppHeader() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [params] = useSearchParams();
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light");
@@ -35,18 +43,31 @@ export function AppHeader() {
             { label: "Products", href: "/products", end: false },
             { label: "Good to know", href: "/payment-shipping", end: true },
             { label: "Contact", href: "/contact", end: true },
-          ].map((link) => (
-            <NavLink
-              key={link.href}
-              to={link.href}
-              end={link.end}
-              className={({ isActive }) =>
-                `${classes.link} ${isActive ? classes.linkActive : ""}`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
+          ].map((link) => {
+            const currentPage = Boolean(
+              matchPath({ path: link.href, end: true }, pathname),
+            );
+            const isActive =
+              Boolean(
+                matchPath({ path: link.href, end: link.end }, pathname),
+              ) ||
+              (link.href === "/payment-shipping" &&
+                goodToKnowLinks.some((topic) =>
+                  matchPath(topic.href, pathname),
+                ));
+            return (
+              <Link
+                key={link.href}
+                to={link.href}
+                aria-current={
+                  isActive ? (currentPage ? "page" : "location") : undefined
+                }
+                className={`${classes.link} ${isActive ? classes.linkActive : ""}`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
         <Group gap={8} className={classes.actions} wrap="nowrap">
           <ActionIcon

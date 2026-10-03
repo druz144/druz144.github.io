@@ -4,6 +4,9 @@
   gap: 56px;
   margin-top: 40px;
 }
+.contactLayout {
+  grid-template-columns: minmax(0, 1fr);
+}
 .navigation {
   display: flex;
   flex-direction: column;
