@@ -87,6 +87,20 @@ test("home carousel cycles through three product types and opens the selected pr
   const nose = carousel.getByRole("button", { name: "Show nose sections" });
   const next = carousel.getByRole("button", { name: "Next product" });
   await expect.element(engines).toHaveAttribute("aria-pressed", "true");
+  const imageBounds = carousel
+    .getByRole("img")
+    .element()
+    .getBoundingClientRect();
+  for (const name of ["Previous product", "Next product"]) {
+    const arrowBounds = carousel
+      .getByRole("button", { name })
+      .element()
+      .getBoundingClientRect();
+    expect(arrowBounds.left).toBeGreaterThanOrEqual(imageBounds.left);
+    expect(arrowBounds.right).toBeLessThanOrEqual(imageBounds.right);
+    expect(arrowBounds.top).toBeGreaterThanOrEqual(imageBounds.top);
+    expect(arrowBounds.bottom).toBeLessThanOrEqual(imageBounds.bottom);
+  }
   await expect
     .element(carousel.getByRole("link"))
     .toHaveAttribute("href", "#/products/cfm56-7b_revell");
@@ -108,7 +122,7 @@ test("home carousel cycles through three product types and opens the selected pr
   await expect.element(engines).toHaveAttribute("aria-pressed", "true");
   await userEvent.keyboard("{ArrowRight}");
   await expect.element(winglets).toHaveAttribute("aria-pressed", "true");
-  await carousel.getByRole("link").click();
+  await carousel.getByText("Winglets / Boeing 737 Classic & NG").click();
   await expect
     .element(page.getByRole("heading", { level: 1 }))
     .toHaveTextContent("Winglets for Boeing 737 Classic/NG");

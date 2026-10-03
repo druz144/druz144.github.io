@@ -50,65 +50,83 @@ export function HeroCarousel() {
         }
       }}
     >
-      <div
-        ref={track}
-        className={classes.track}
-        onScroll={(event) => {
-          const { scrollLeft, clientWidth } = event.currentTarget;
-          if (clientWidth) {
-            const next = Math.max(
-              0,
-              Math.min(
-                highlights.length - 1,
-                Math.round(scrollLeft / clientWidth),
-              ),
-            );
-            if (
-              next !== active &&
-              track.current?.contains(document.activeElement)
-            ) {
-              selectors.current[next]?.focus({ preventScroll: true });
+      <div className={classes.stage}>
+        <div
+          ref={track}
+          className={classes.track}
+          onScroll={(event) => {
+            const { scrollLeft, clientWidth } = event.currentTarget;
+            if (clientWidth) {
+              const next = Math.max(
+                0,
+                Math.min(
+                  highlights.length - 1,
+                  Math.round(scrollLeft / clientWidth),
+                ),
+              );
+              if (
+                next !== active &&
+                track.current?.contains(document.activeElement)
+              ) {
+                selectors.current[next]?.focus({ preventScroll: true });
+              }
+              setActive(next);
             }
-            setActive(next);
-          }
-        }}
-      >
-        {highlights.map((item, index) => (
-          <div
-            key={item.id}
-            className={classes.slide}
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`${index + 1} of ${highlights.length}: ${item.category}`}
-            aria-hidden={index !== active}
-          >
-            <Link
-              to={`/products/${item.id}`}
-              className={classes.product}
-              tabIndex={index === active ? 0 : -1}
-              aria-label={`Explore ${kitsById[item.id].name}`}
-              draggable={false}
+          }}
+        >
+          {highlights.map((item, index) => (
+            <div
+              key={item.id}
+              className={classes.slide}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${index + 1} of ${highlights.length}: ${item.category}`}
+              aria-hidden={index !== active}
             >
-              <img
-                src={getKitImageUrl(item.image)}
-                alt={item.alt}
-                fetchPriority={index === 0 ? "high" : "low"}
-                width="1080"
-                height="1080"
+              <Link
+                to={`/products/${item.id}`}
+                className={classes.product}
+                tabIndex={index === active ? 0 : -1}
+                aria-label={`Explore ${kitsById[item.id].name}`}
                 draggable={false}
-              />
-              <div className={classes.caption}>
-                <div>
-                  <span>
-                    {item.category} · {kitsById[item.id].scale}
-                  </span>
-                  <strong>{item.title}</strong>
+              >
+                <img
+                  src={getKitImageUrl(item.image)}
+                  alt={item.alt}
+                  fetchPriority={index === 0 ? "high" : "low"}
+                  width="1080"
+                  height="1080"
+                  draggable={false}
+                />
+                <div className={classes.caption}>
+                  <div>
+                    <span>
+                      {item.category} · {kitsById[item.id].scale}
+                    </span>
+                    <strong>{item.title}</strong>
+                  </div>
+                  <IconArrowRight size={22} aria-hidden="true" />
                 </div>
-                <IconArrowRight size={22} aria-hidden="true" />
-              </div>
-            </Link>
-          </div>
-        ))}
+              </Link>
+            </div>
+          ))}
+        </div>
+        <div className={classes.arrows}>
+          <button
+            type="button"
+            aria-label="Previous product"
+            onClick={() => showSlide(active - 1)}
+          >
+            <IconArrowLeft size={20} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            aria-label="Next product"
+            onClick={() => showSlide(active + 1)}
+          >
+            <IconArrowRight size={20} aria-hidden="true" />
+          </button>
+        </div>
       </div>
       <div className={classes.controls}>
         <span className={classes.counter} aria-live="polite" aria-atomic="true">
@@ -137,22 +155,6 @@ export function HeroCarousel() {
               <span />
             </button>
           ))}
-        </div>
-        <div className={classes.arrows}>
-          <button
-            type="button"
-            aria-label="Previous product"
-            onClick={() => showSlide(active - 1)}
-          >
-            <IconArrowLeft size={20} aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            aria-label="Next product"
-            onClick={() => showSlide(active + 1)}
-          >
-            <IconArrowRight size={20} aria-hidden="true" />
-          </button>
         </div>
       </div>
     </section>
