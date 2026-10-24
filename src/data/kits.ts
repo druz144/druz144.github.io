@@ -451,7 +451,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/ge-90-engines-for-boeing-777-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "ge90_b777/1COV777GE.jpg",
+      "ge90_b777/2SET777GE.jpg",
+      "ge90_b777/3DEC777GE.jpg",
+    ],
   },
   {
     // Keep the existing ID so saved carts and product links remain valid.
@@ -469,7 +473,12 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/fans-spinners-and-decals-for-revell-zvezda-boeing-777-300er-kits/",
       },
     ],
-    images: [],
+    images: [
+      "fans_spinners_decals_b777/1COVFAN777.jpg",
+      "fans_spinners_decals_b777/2SETFAN777.jpg",
+      "fans_spinners_decals_b777/3DECFAN777.jpg",
+      "fans_spinners_decals_b777/4FAN777.jpg",
+    ],
   },
   {
     id: "decals_ge90-115_b777",
@@ -480,7 +489,11 @@ export const kits: Kit[] = [
     kitManufacturer: "Revell / Zvezda",
     scale: "1/144",
     priceEur: 9,
-    images: [],
+    images: [
+      "decals_ge90-115_b777/1DEC777115.jpg",
+      "decals_ge90-115_b777/2DEC777115.jpg",
+      "decals_ge90-115_b777/3DEC777115.jpg",
+    ],
   },
   {
     id: "trent800_b777",
@@ -496,7 +509,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/rr-trent-800-engines-for-boeing-777-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "trent800_b777/1COV777RR.jpg",
+      "trent800_b777/2SET777RR.jpg",
+      "trent800_b777/3DEC777RR.jpg",
+    ],
   },
   {
     id: "pw4000_b777",
@@ -512,7 +529,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/pw-4000-engines-for-boeing-777-kits-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "pw4000_b777/1COV777PW.jpg",
+      "pw4000_b777/2SET777PW.jpg",
+      "pw4000_b777/3DEC777PW.jpg",
+    ],
   },
   {
     id: "genx-1b_b787",
@@ -528,7 +549,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/genx-1b-engines-for-boeing-787-dreamliner-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "genx-1b_b787/1COV787.jpg",
+      "genx-1b_b787/2SET787.jpg",
+      "genx-1b_b787/3DEC787.jpg",
+    ],
   },
   {
     id: "cf6-80c2_a300_a310",
@@ -544,7 +569,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/ge-cf6-80c2-engines-for-airbus-a300-a300-st-beluga-a310-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "cf6-80c2_a300_a310/1COVBEL.jpg",
+      "cf6-80c2_a300_a310/2SETBEL.jpg",
+      "cf6-80c2_a300_a310/3DECBEL.jpg",
+    ],
   },
   {
     id: "pw_a310",
@@ -560,7 +589,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/pratt-whitney-engines-for-airbus-a310-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "pw_a310/1COVPW310.jpg",
+      "pw_a310/2SETPW310.jpg",
+      "pw_a310/3DECPW310.jpg",
+    ],
   },
   {
     id: "cfm56-5a_a320_revell",
@@ -577,7 +610,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/cfm56-5a-engines-for-a319-320-321-revell-zvezda-kits-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "cfm56-5a_a320_revell/1COV5A320R.jpg",
+      "cfm56-5a_a320_revell/2SET5A320.jpg",
+      "cfm56-5a_a320_revell/3DEC5A320.jpg",
+    ],
   },
   {
     id: "cfm56-5a_a320_zvezda",
@@ -594,7 +631,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/cfm56-5a-engines-for-a319-320-321-revell-zvezda-kits-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "cfm56-5a_a320_zvezda/1COV5A320Z.jpg",
+      "cfm56-5a_a320_zvezda/2SET5A320.jpg",
+      "cfm56-5a_a320_zvezda/3DEC5A320.jpg",
+    ],
   },
   {
     id: "cfm56-5b_a320_revell",
@@ -611,7 +652,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/cfm56-5b-engines-for-a319-320-321-revell-zvezda-kits-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "cfm56-5b_a320_revell/1COV5B320R.jpg",
+      "cfm56-5b_a320_revell/2SET5B320.jpg",
+      "cfm56-5b_a320_revell/3DEC5B320.jpg",
+    ],
   },
   {
     id: "cfm56-5b_a320_zvezda",
@@ -628,7 +673,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/cfm56-5b-engines-for-a319-320-321-revell-zvezda-kits-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "cfm56-5b_a320_zvezda/1COV5B320Z.jpg",
+      "cfm56-5b_a320_zvezda/2SET5B320.jpg",
+      "cfm56-5b_a320_zvezda/3DEC5B320.jpg",
+    ],
   },
   {
     id: "v2500_a320_revell",
@@ -645,7 +694,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/iae-v2500-engines-for-a319-320-321-revell-zvezda-kits-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "v2500_a320_revell/1COVIAE320R.jpg",
+      "v2500_a320_revell/2SETIAE320.jpg",
+      "v2500_a320_revell/3DECIAE320.jpg",
+    ],
   },
   {
     id: "v2500_a320_zvezda",
@@ -662,7 +715,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/iae-v2500-engines-for-a319-320-321-revell-zvezda-kits-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "v2500_a320_zvezda/1COVIAE320Z.jpg",
+      "v2500_a320_zvezda/2SETIAE320.jpg",
+      "v2500_a320_zvezda/3DECIAE320.jpg",
+    ],
   },
   {
     id: "leap-1a_a320_revell",
@@ -679,7 +736,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/leap-1a-engines-for-a319-320-321-neo-revell-zvezda-kits-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "leap-1a_a320_revell/1COV320LR.jpg",
+      "leap-1a_a320_revell/2SET320L.jpg",
+      "leap-1a_a320_revell/3DEC320L.jpg",
+    ],
   },
   {
     id: "leap-1a_a320_zvezda",
@@ -696,7 +757,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/leap-1a-engines-for-a319-320-321-neo-revell-zvezda-kits-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "leap-1a_a320_zvezda/1COV320LZ.jpg",
+      "leap-1a_a320_zvezda/2SET320L.jpg",
+      "leap-1a_a320_zvezda/3DEC320L.jpg",
+    ],
   },
   {
     id: "pw1100g_a320_revell",
@@ -713,7 +778,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/pw-1100g-engines-for-a319-320-321-neo-revell-zvezda-kits-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "pw1100g_a320_revell/1COV320PWR.jpg",
+      "pw1100g_a320_revell/2SET320PW.jpg",
+      "pw1100g_a320_revell/3DEC320PW.jpg",
+    ],
   },
   {
     id: "pw1100g_a320_zvezda",
@@ -730,7 +799,11 @@ export const kits: Kit[] = [
         url: "https://airlinercafe.com/forums/topic/pw-1100g-engines-for-a319-320-321-neo-revell-zvezda-kits-in-1-144-scale/",
       },
     ],
-    images: [],
+    images: [
+      "pw1100g_a320_zvezda/1COV320PWZ.jpg",
+      "pw1100g_a320_zvezda/2SET320PW.jpg",
+      "pw1100g_a320_zvezda/3DEC320PW.jpg",
+    ],
   },
   {
     id: "nose_a330_a340",
